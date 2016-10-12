@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+<title>flask web socket</title>
+</head>
+<body>
+<h1>Riot.js + Flask-SocketIO + WebSocket</h1>
+
+<script type="text/javascript" src="static/socket.io.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+</script>
+
+<app></app>
+<script type="riot/tag">
+<app>
+<form onsubmit={add}>
+  <div>your name<input></div>
+  <div>What are you doing?<input>
+  <button>send</button></div>
+</form>
+<hr/>
+<li each={ item in items }>{ item }</li>
+this.items=[]
+add(e){
+  socket.emit('cast', e.target[0].value + ' : ' + e.target[1].value)
+  e.target[1].value = ''
+}
+var self = this
+socket.on('update', function(text) {
+  self.items.unshift(text)
+  self.update()
+});
+</app>
+</script>
+
+<script src="static/riot.js"></script>
+<script>
+riot.mount('*')
+</script>
+
+</body>
+</html>
