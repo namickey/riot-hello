@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<title>hello riot</title>
+</head>
+<body>
+
+<my-tag></my-tag>
+<my-todo></my-todo>
+<example></example>
+<script type="riot/tag">
+  <my-tag>
+    <h3>Tag layout</h3>
+  </my-tag>
+  <my-todo>
+  <h3>{opts.title}</h3>
+  </my-todo>
+  <example>
+    <button onclick='{ methodName }'>Click</button>
+    <button onclick='{ methodName2 }'>Click2</button>
+        methodName ( event ) {
+            console.log( event )
+            riot.route('customer')
+        }
+        methodName2 ( event ) {
+            console.log( 'event2' )
+            fetch('http://localhost:5000/j', {mode:'cors'}).then(function(response){
+                console.log( 'event3' )
+                return response.json()
+            }).then(function(json){
+                console.log(json)
+            })
+            console.log( event )
+            riot.route('hoge')
+        }
+  </example>
+  riot.route(function(aa){
+    console.log(aa)
+  })
+
+</script>
+
+
+
+<!-- riot.jsとコンパイラを読み込む -->
+<script src="riot.js"></script>
+<!-- 通常のマウント -->
+<script>
+riot.mount('*', {title: 'hello world'})
+</script>
+
+</body>
+</html>
